@@ -2,7 +2,8 @@ import React from "react";
 
 const UserSignUp = () => {
   return (
-    <div class="form--centered">
+    <main>
+      <div className="form--centered">
       <h2>Sign Up</h2>
 
       <form>
@@ -14,11 +15,11 @@ const UserSignUp = () => {
         <input id="emailAddress" name="emailAddress" type="email" value="" />
         <label for="password">Password</label>
         <input id="password" name="password" type="password" value="" />
-        <button class="button" type="submit">
+        <button className="button" type="submit">
           Sign Up
         </button>
         <button
-          class="button button-secondary"
+          className="button button-secondary"
           onclick="event.preventDefault(); location.href='index.html';"
         >
           Cancel
@@ -29,6 +30,7 @@ const UserSignUp = () => {
         <a href="sign-in.html">sign in</a>!
       </p>
     </div>
+    </main>
   );
 };
 

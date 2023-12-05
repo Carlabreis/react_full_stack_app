@@ -7,19 +7,16 @@ import CreateCourse from "./components/CreateCourse";
 import UpdateCourse from "./components/UpdateCourse";
 import Header from "./components/Header";
 
-
 function App() {
   return (
     <div>
       <Header />
-      <main>
-        <Courses />
-        {/* <CourseDetail id={course.id} /> */}
-        {/* <UserSignIn /> */}
-        {/* <UserSignUp /> */}
-        {/* <CreateCourse /> */}
-        {/* <UpdateCourse /> */}
-      </main>
+      {/* <Courses /> */}
+      <CourseDetail id="2" />
+      {/* <UserSignIn /> */}
+      {/* <UserSignUp /> */}
+      {/* <CreateCourse /> */}
+      {/* <UpdateCourse /> */}
     </div>
   );
 }

@@ -2,7 +2,8 @@ import React from "react";
 
 const UserSignIn = () => {
   return (
-    <div className="form--centered">
+    <main>
+      <div className="form--centered">
       <h2>Sign In</h2>
       <form>
         <label for="emailAddress">Email Address</label>
@@ -24,6 +25,7 @@ const UserSignIn = () => {
         <a href="sign-up.html">sign up</a>!
       </p>
     </div>
+    </main>
   );
 };
 

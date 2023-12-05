@@ -13,38 +13,38 @@ const CourseDetail = ({ id }) => {
   }, [id]);
 
   return (
-    <>
-      <div class="actions--bar">
-        <div class="wrap">
-          <a class="button" href="/UpdateCourse">
+    <main>
+      <div className="actions--bar">
+        <div className="wrap">
+          <a className="button" href="/UpdateCourse">
             Update Course
           </a>
-          <a class="button" href="/Courses">
+          <a className="button" href="/Courses">
             Delete Course
           </a>
-          <a class="button button-secondary" href="/Courses">
+          <a className="button button-secondary" href="/Courses">
             Return to List
           </a>
         </div>
       </div>
 
-      <div class="wrap">
+      <div className="wrap">
         <h2>Course Detail</h2>
         <form>
-          <div class="main--flex">
+          <div className="main--flex">
             <div>
-              <h3 class="course--detail--title">Course</h3>
-              <h4 class="course--name">{course.title}</h4>
+              <h3 className="course--detail--title">Course</h3>
+              <h4 className="course--name">{course.title}</h4>
               <p>By {course.User.firstName} {course.User.lastName}</p>
 
               <p>{course.description}</p>
             </div>
             <div>
-              <h3 class="course--detail--title">Estimated Time</h3>
+              <h3 className="course--detail--title">Estimated Time</h3>
               <p>{course.estimatedTime}</p>
 
-              <h3 class="course--detail--title">Materials Needed</h3>
-              <ul class="course--detail--list">
+              <h3 className="course--detail--title">Materials Needed</h3>
+              <ul className="course--detail--list">
                 {course.materialsNeeded
                   ? course.materialsNeeded
                       .replace(/\*/g, "")
@@ -56,7 +56,7 @@ const CourseDetail = ({ id }) => {
           </div>
         </form>
       </div>
-    </>
+    </main>
   );
 };
 
