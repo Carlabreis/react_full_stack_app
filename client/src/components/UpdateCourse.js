@@ -1,6 +1,26 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { useParams, Navigate } from "react-router-dom";
 
-const UpdateCourse = (course) => {
+const UpdateCourse = () => {
+  const { id } = useParams();
+
+  const [course, setCourse] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/courses/${id}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setCourse(result);
+        console.log(result);
+      });
+  }, [id]);
+
+  // function handleCancel(event) {
+  //   event.preventDefault();
+  //   <Navigate to="/" />
+  // }
+
   return (
     <main>
       <div className="wrap">
@@ -8,7 +28,7 @@ const UpdateCourse = (course) => {
       <form>
         <div className="main--flex">
           <div>
-            <label for="courseTitle">Course Title</label>
+            <label htmlFor="courseTitle">Course Title</label>
             <input
               id="courseTitle"
               name="courseTitle"
@@ -16,15 +36,13 @@ const UpdateCourse = (course) => {
               value={course.title}
             />
 
-            <p>By Joe Smith</p>
+            {/* <p>By {course.User.firstName + " " + course.User.lastName}</p> */}
 
-            <label for="courseDescription">Course Description</label>
-            <textarea id="courseDescription" name="courseDescription">
-              {course.description}
-            </textarea>
+            <label htmlFor="courseDescription">Course Description</label>
+            <textarea id="courseDescription" name="courseDescription" value={course.description}/>
           </div>
           <div>
-            <label for="estimatedTime">Estimated Time</label>
+            <label htmlFor="estimatedTime">Estimated Time</label>
             <input
               id="estimatedTime"
               name="estimatedTime"
@@ -32,10 +50,8 @@ const UpdateCourse = (course) => {
               value={course.estimatedTime}
             />
 
-            <label for="materialsNeeded">Materials Needed</label>
-            <textarea id="materialsNeeded" name="materialsNeeded">
-              {course.materialsNeeded}
-            </textarea>
+            <label htmlFor="materialsNeeded">Materials Needed</label>
+            <textarea id="materialsNeeded" name="materialsNeeded" value={course.materialsNeeded}/>
           </div>
         </div>
         <button className="button" type="submit">
@@ -43,8 +59,7 @@ const UpdateCourse = (course) => {
         </button>
         <button
           className="button button-secondary"
-          //fix this
-          onClick="event.preventDefault(); location.href='index.html';"
+          // onClick={handleCancel}
         >
           Cancel
         </button>

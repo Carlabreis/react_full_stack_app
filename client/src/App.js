@@ -8,6 +8,7 @@ import Courses from "./components/Courses";
 import CourseDetail from "./components/CourseDetail";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
+import UserSignOut from "./components/UserSignOut";
 import CreateCourse from "./components/CreateCourse";
 import UpdateCourse from "./components/UpdateCourse";
 import Header from "./components/Header";
@@ -18,11 +19,12 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Courses />}/>
-        <Route path="/CoureseDetail" element={<CourseDetail />}/>
-        <Route path="/UserSignIn" element={<UserSignIn />}/>
-        <Route path="/UserSignUp" element={<UserSignUp />}/>
-        <Route path="/CreateCourse" element={<CreateCourse />}/>
-        <Route path="/UpdateCourse" element={<UpdateCourse />}/>
+        <Route path="/courses/create" element={<CreateCourse />}/>
+        <Route path="/courses/:id/update" element={<UpdateCourse />}/>
+        <Route path="/courses/:id" element={<CourseDetail />}/>
+        <Route path="/signin" element={<UserSignIn />}/>
+        <Route path="/signup" element={<UserSignUp />}/>
+        <Route path="/signout" element={<UserSignOut />}/>
       </Routes>
     </div>
   );

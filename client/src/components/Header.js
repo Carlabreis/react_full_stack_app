@@ -1,19 +1,20 @@
 import React from "react";
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   return (
     <header>
       <div className="wrap header--flex">
         <h1 className="header--logo">
-          <a href="/">Courses</a>
+          <NavLink to="/" end>Courses</NavLink>
         </h1>
         <nav>
           <ul className="header--signedout">
             <li>
-              <a href="/UserSignUp">Sign Up</a>
+              <NavLink to="/signup">Sign Up</NavLink>
             </li>
             <li>
-              <a href="/UserSignIn">Sign In</a>
+              <NavLink to="/signin">Sign In</NavLink>
             </li>
           </ul>
         </nav>

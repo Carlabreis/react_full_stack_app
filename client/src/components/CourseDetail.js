@@ -1,7 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link, useParams } from 'react-router-dom';
 
-const CourseDetail = ({ id }) => {
+const CourseDetail = () => {
+  const { id } = useParams();
+
   const [course, setCourse] = useState([]);
 
   useEffect(() => {
@@ -16,15 +19,15 @@ const CourseDetail = ({ id }) => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <a className="button" href="/UpdateCourse">
+          <Link className="button" to={`/courses/${id}/update`}>
             Update Course
-          </a>
-          <a className="button" href="/">
+          </Link>
+          <Link className="button" to="/">
             Delete Course
-          </a>
-          <a className="button button-secondary" href="/">
+          </Link>
+          <Link className="button button-secondary" to="/">
             Return to List
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -35,7 +38,7 @@ const CourseDetail = ({ id }) => {
             <div>
               <h3 className="course--detail--title">Course</h3>
               <h4 className="course--name">{course.title}</h4>
-              <p>By {course.User.firstName} {course.User.lastName}</p>
+              {/* <p>By {course.User.firstName} {course.User.lastName}</p> */}
 
               <p>{course.description}</p>
             </div>
