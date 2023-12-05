@@ -12,6 +12,7 @@ import UserSignOut from "./components/UserSignOut";
 import CreateCourse from "./components/CreateCourse";
 import UpdateCourse from "./components/UpdateCourse";
 import Header from "./components/Header";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signin" element={<UserSignIn />}/>
         <Route path="/signup" element={<UserSignUp />}/>
         <Route path="/signout" element={<UserSignOut />}/>
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
     </div>
   );
