@@ -25,7 +25,7 @@ const Courses = () => {
           <h3 className="course--title">{course.title}</h3>
         </a>
       ))}
-      <a className="course--module course--add--module" href="create-course.html">
+      <a className="course--module course--add--module" href="/CreateCourse">
         <span className="course--add--title">
           <svg
             version="1.1"

@@ -19,10 +19,10 @@ const CourseDetail = ({ id }) => {
           <a className="button" href="/UpdateCourse">
             Update Course
           </a>
-          <a className="button" href="/Courses">
+          <a className="button" href="/">
             Delete Course
           </a>
-          <a className="button button-secondary" href="/Courses">
+          <a className="button button-secondary" href="/">
             Return to List
           </a>
         </div>
