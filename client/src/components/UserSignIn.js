@@ -1,11 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
 const UserSignIn = () => {
-  const { actions, authUser } = useContext(UserContext);
+  const { actions } = useContext(UserContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,19 +29,18 @@ const UserSignIn = () => {
       from = location.state.from;
     }
 
+    const credentials = {
+      emailAddress: emailAddress.current.value,
+      password: password.current.value,
+    };
 
     try {
-      await actions.signIn(emailAddress.current.value, password.current.value);
+      const user = await actions.signIn(credentials);
 
-      if (authUser) {
+      if (user) {
         navigate(from);
-        // console.log(`${user.emailAddress} is now signed in!`);
-        console.log(authUser);
-      } else if (authUser === null) {
-        setErrors(["Sign-in was unsuccessful!"]);
-        console.log("Sign in was unsuccessful!");
       } else {
-        throw new Error();
+        setErrors(["Sign-in was unsuccessful!"]);
       }
     } catch (error) {
       console.log(error);
@@ -61,10 +60,11 @@ const UserSignIn = () => {
             name="emailAddress"
             type="email"
             ref={emailAddress}
+            defaultValue=""
           />
 
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" ref={password} />
+          <input id="password" name="password" type="password" ref={password} defaultValue="" />
 
           <button className="button" type="submit">
             Sign In
