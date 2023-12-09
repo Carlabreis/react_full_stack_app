@@ -5,7 +5,7 @@ import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
 const UserSignIn = () => {
-  const { actions } = useContext(UserContext);
+  const { actions, authUser } = useContext(UserContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,36 +24,21 @@ const UserSignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // routing the user to the page they tried to access
-    let from = '/';
+    let from = "/";
     if (location.state) {
       from = location.state.from;
     }
 
-    // the btoa method creates a base64 encoded ascii string from a string of data; separate them by a :
-    const encodedCredentials = btoa(
-      `${emailAddress.current.value}:${password.current.value}`
-    );
-
-    const fetchOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Basic ${encodedCredentials}`,
-      },
-    };
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/users",
-        fetchOptions
-      );
+      await actions.signIn(emailAddress.current.value, password.current.value);
 
-      if (response.status === 200) {
-        const user = await response.json();
-        actions.signIn(user.emailAddress, user.password);
+      if (authUser) {
         navigate(from);
-        console.log(`${user.emailAddress} is now signed in!`);
-      } else if (response.status === 401) {
-          setErrors(["Sign-in was unsuccessful!"]);
+        // console.log(`${user.emailAddress} is now signed in!`);
+        console.log(authUser);
+      } else if (authUser === null) {
+        setErrors(["Sign-in was unsuccessful!"]);
         console.log("Sign in was unsuccessful!");
       } else {
         throw new Error();
@@ -79,12 +64,7 @@ const UserSignIn = () => {
           />
 
           <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            ref={password}
-          />
+          <input id="password" name="password" type="password" ref={password} />
 
           <button className="button" type="submit">
             Sign In

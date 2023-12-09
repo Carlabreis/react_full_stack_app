@@ -1,8 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
 import ErrorsDisplay from "./ErrorsDisplay";
+import UserContext from "../context/UserContext";
 
 const CreateCourse = () => {
+  const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   // states
@@ -10,6 +13,7 @@ const CreateCourse = () => {
   const description = useRef(null);
   const estimatedTime = useRef(null);
   const materialsNeeded = useRef(null);
+  const courseAuthor = authUser;
   const [errors, setErrors] = useState([]);
 
   // EVENT HANDLERS
@@ -26,6 +30,7 @@ const CreateCourse = () => {
       description: description.current.value,
       estimatedTime: estimatedTime.current.value,
       materialsNeeded: materialsNeeded.current.value,
+      userId: courseAuthor.id
     };
 
     const fetchOptions = {
@@ -76,7 +81,7 @@ const CreateCourse = () => {
             <label htmlFor="courseTitle">Course Title</label>
             <input id="courseTitle" name="courseTitle" type="text" ref={title} />
 
-            <p>By Joe Smith</p>
+            <p>By {courseAuthor.firstName + " " + courseAuthor.lastName}</p>
 
             <label htmlFor="courseDescription">Course Description</label>
             <textarea

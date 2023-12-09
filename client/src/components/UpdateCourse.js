@@ -1,8 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const UpdateCourse = () => {
+  const { authUser } = useContext(UserContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -38,17 +39,17 @@ const UpdateCourse = () => {
                 name="courseTitle"
                 type="text"
                 // value={course.title == null ? "" : course.title}
-                // placeholder={course.title}
+                placeholder={course.title}
               />
 
-              {/* <p>By {course.User.firstName + " " + course.User.lastName}</p> */}
+              <p>By {authUser.firstName + " " + authUser.lastName}</p>
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea
                 id="courseDescription"
                 name="courseDescription"
                 // value={course.description}
-                // placeholder={course.description}
+                placeholder={course.description}
               />
             </div>
             <div>
@@ -58,7 +59,7 @@ const UpdateCourse = () => {
                 name="estimatedTime"
                 type="text"
                 // value={course.estimatedTime == null ? "" : course.estimatedTime}
-                // placeholder={course.estimatedTime}
+                placeholder={course.estimatedTime}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
@@ -66,7 +67,7 @@ const UpdateCourse = () => {
                 id="materialsNeeded"
                 name="materialsNeeded"
                 // value={course.materialsNeeded}
-                // placeholder={course.materialsNeeded}
+                placeholder={course.materialsNeeded}
               />
             </div>
           </div>

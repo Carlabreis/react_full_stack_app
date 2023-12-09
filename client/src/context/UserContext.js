@@ -6,11 +6,44 @@ export const UserProvider = (props) => {
   const [authUser, setAuthUser] = useState(null);
 
   const signInUser = async (emailAddress, password) => {
-    const user = {
-      emailAddress,
-      password
+    // the btoa method creates a base64 encoded ascii string from a string of data; separate them by a :
+    const encodedCredentials = btoa(
+      `${emailAddress}:${password}`
+    );
+
+    const fetchOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Basic ${encodedCredentials}`,
+      },
     };
-    setAuthUser(user);
+
+    // try {
+      const response = await fetch(
+        "http://localhost:5000/api/users",
+        fetchOptions
+      );
+
+      if (response.status === 200) {
+        const user = await response.json();
+        user.password = password;
+        setAuthUser(user);
+        return authUser;
+      } 
+      // else if (response.status === 401) {
+      //   return null;
+      // }
+    //   else {
+    //     throw new Error();
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // const user = {
+    //   emailAddress,
+    //   password
+    // };
+    // setAuthUser(user);
   };
 
   const signOutUser = () => {
