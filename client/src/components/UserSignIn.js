@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
@@ -7,6 +8,7 @@ const UserSignIn = () => {
   const { actions } = useContext(UserContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // State
   const emailAddress = useRef(null);
@@ -21,6 +23,11 @@ const UserSignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // routing the user to the page they tried to access
+    let from = '/';
+    if (location.state) {
+      from = location.state.from;
+    }
 
     // the btoa method creates a base64 encoded ascii string from a string of data; separate them by a :
     const encodedCredentials = btoa(
@@ -41,10 +48,10 @@ const UserSignIn = () => {
       );
 
       if (response.status === 200) {
-        const newUser = await response.json();
-        actions.signIn(newUser.emailAddress, newUser.password);
-        navigate("/");
-        console.log(`${newUser.emailAddress} is now signed in!`);
+        const user = await response.json();
+        actions.signIn(user.emailAddress, user.password);
+        navigate(from);
+        console.log(`${user.emailAddress} is now signed in!`);
       } else if (response.status === 401) {
           setErrors(["Sign-in was unsuccessful!"]);
         console.log("Sign in was unsuccessful!");

@@ -3,24 +3,24 @@ import { createContext, useState } from "react";
 const UserContext = createContext(null);
 
 export const UserProvider = (props) => {
-  const [user, setUser] = useState(null);
+  const [authUser, setAuthUser] = useState(null);
 
   const signInUser = async (emailAddress, password) => {
-    const newUser = {
+    const user = {
       emailAddress,
       password
     };
-    setUser(newUser);
+    setAuthUser(user);
   };
 
   const signOutUser = () => {
-    setUser(null);
+    setAuthUser(null);
   };
 
   return (
     <UserContext.Provider
       value={{
-        user,
+        authUser,
         actions: {
           signIn: signInUser,
           signOut: signOutUser,
