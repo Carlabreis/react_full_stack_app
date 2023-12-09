@@ -1,42 +1,101 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ErrorsDisplay from "./ErrorsDisplay";
 
 const CreateCourse = () => {
+  const navigate = useNavigate();
+
+  // states
+  const title = useRef(null);
+  const description = useRef(null);
+  const estimatedTime = useRef(null);
+  const materialsNeeded = useRef(null);
+  const [errors, setErrors] = useState([]);
+
+  // EVENT HANDLERS
+  const handleCancel = (event) => {
+    event.preventDefault();
+    navigate("/");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const course = {
+      title: title.current.value,
+      description: description.current.value,
+      estimatedTime: estimatedTime.current.value,
+      materialsNeeded: materialsNeeded.current.value,
+    };
+
+    const fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(course),
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/courses",
+        fetchOptions
+      );
+
+      if (response.status === 201) {
+        console.log(
+          `${course.title} is successfully created!`
+        );
+      } else if (response.status === 400) {
+        const data = await response.json();
+        setErrors(data.errors)
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error);
+      navigate("/error");
+    }
+  };
+
   return (
     <main>
       <div className="wrap">
       <h2>Create Course</h2>
-      <div className="validation--errors">
+      <ErrorsDisplay errors={errors} />
+      {/* <div className="validation--errors">
         <h3>Validation Errors</h3>
         <ul>
-          <li>Please provide a value for "Title"</li>
-          <li>Please provide a value for "Description"</li>
+          <li>{errors.title}</li>
+          <li>{errors.description}</li>
         </ul>
-      </div>
-      <form>
+      </div> */}
+      <form onSubmit={handleSubmit}>
         <div className="main--flex">
           <div>
-            <label for="courseTitle">Course Title</label>
-            <input id="courseTitle" name="courseTitle" type="text" value="" />
+            <label htmlFor="courseTitle">Course Title</label>
+            <input id="courseTitle" name="courseTitle" type="text" ref={title} />
 
             <p>By Joe Smith</p>
 
-            <label for="courseDescription">Course Description</label>
+            <label htmlFor="courseDescription">Course Description</label>
             <textarea
               id="courseDescription"
               name="courseDescription"
+              ref={description}
             ></textarea>
           </div>
           <div>
-            <label for="estimatedTime">Estimated Time</label>
+            <label htmlFor="estimatedTime">Estimated Time</label>
             <input
               id="estimatedTime"
               name="estimatedTime"
               type="text"
-              value=""
+              ref={estimatedTime}
             />
 
-            <label for="materialsNeeded">Materials Needed</label>
-            <textarea id="materialsNeeded" name="materialsNeeded"></textarea>
+            <label htmlFor="materialsNeeded">Materials Needed</label>
+            <textarea id="materialsNeeded" name="materialsNeeded" ref={materialsNeeded}></textarea>
           </div>
         </div>
         <button className="button" type="submit">
@@ -44,7 +103,7 @@ const CreateCourse = () => {
         </button>
         <button
           className="button button-secondary"
-          onclick="event.preventDefault(); location.href='index.html';"
+          onClick={handleCancel}
         >
           Cancel
         </button>

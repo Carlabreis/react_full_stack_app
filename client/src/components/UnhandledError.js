@@ -1,4 +1,4 @@
-const ErrorPage = () => {
+const UnhandledError = () => {
   return (
     <main>
     <div className="wrap">
@@ -9,4 +9,4 @@ const ErrorPage = () => {
   )
 };
 
-export default ErrorPage;
+export default UnhandledError;

@@ -3,7 +3,7 @@ const ErrorsDisplay = ({ errors }) => {
 
   if (errors.length) {
     errorsDisplay = (
-      <div class="validation--errors">
+      <div className="validation--errors">
         <h3>Validation Errors</h3>
         <ul>
           {errors.map((error, i) => (
