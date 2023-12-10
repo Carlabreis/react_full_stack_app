@@ -20,7 +20,7 @@ export const UserProvider = (props) => {
       setAuthUser(user);
       // Store authenticated user in Cookies for 1 day
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
-      return authUser;
+      return user;
     } else if (response.status === 401) {
       return null;
     } else if (response.status === 500) {

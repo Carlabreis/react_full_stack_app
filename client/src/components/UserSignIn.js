@@ -38,8 +38,9 @@ const UserSignIn = () => {
       const user = await actions.signIn(credentials);
 
       if (user) {
+        console.log(`${user.firstName} is signed in.`);
         navigate(from);
-      } else {
+      } else if (user === null) {
         setErrors(["Sign-in was unsuccessful!"]);
       }
     } catch (error) {

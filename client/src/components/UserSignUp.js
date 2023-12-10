@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import ErrorsDisplay from "./ErrorsDisplay";
+import { api } from "../utils/apiHelper";
 
 const UserSignUp = () => {
   const navigate = useNavigate();
@@ -29,24 +30,18 @@ const UserSignUp = () => {
       password: password.current.value,
     };
 
-    const fetchOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(user),
-    };
-
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/users",
-        fetchOptions
+      const response = await api(
+        "/users",
+        'POST',
+        user
       );
 
       if (response.status === 201) {
         console.log(
           `${user.firstName} is successfully signed up and authenticated!`
         );
+        navigate("/");
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);

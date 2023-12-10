@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Markdown from "react-markdown";
 
@@ -17,10 +16,13 @@ const CourseDetail = () => {
     const fetchData = async () => {
       try {
         const response = await api(`/courses/${id}`, "GET");
-        const courseJson = await response.json();
+        
         if (response.status === 200) {
+          const courseJson = await response.json();
           setCourse(courseJson);
-        } else if (response.status === 500) {
+        } else if (response.status === 404) {
+          navigate("/notfound");
+        } else {
           navigate("/error");
         }
       } catch (error) {
@@ -29,7 +31,7 @@ const CourseDetail = () => {
       }
     };
     fetchData();
-  }, [navigate, id]);
+  }, [id, navigate]);
 
   const handleDelete = async (event) => {
     event.preventDefault();
@@ -82,9 +84,7 @@ const CourseDetail = () => {
             <div>
               <h3 className="course--detail--title">Course</h3>
               <h4 className="course--name">{course.title}</h4>
-              <p>
-                {/* By {course.User.firstName + " " + course.User.lastName} */}
-              </p>
+              <p>By {course.User.firstName} {course.User.lastName}</p>
               <Markdown children={course.description} />
             </div>
             <div>
@@ -93,12 +93,6 @@ const CourseDetail = () => {
 
               <h3 className="course--detail--title">Materials Needed</h3>
               <ul className="course--detail--list">
-                {/* {course.materialsNeeded
-                  ? course.materialsNeeded
-                      .replace(/\*\/g, "")
-                      .split("\n")
-                      .map((item, i) => <li key={i}>{item}</li>)
-                  : ""} */}
                   {course.materialsNeeded
                   ? <Markdown children={course.materialsNeeded} />
                   : ""}
