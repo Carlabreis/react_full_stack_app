@@ -27,13 +27,14 @@ function App() {
         <Route path="/signin" element={<UserSignIn />} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/signout" element={<UserSignOut />} />
-        <Route path="/error" element={<UnhandledError />} />
-        <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/notfound" element={<NotFound />} />
         <Route element={<PrivateRoute />}>
           <Route path="/courses/create" element={<CreateCourse />} />
           <Route path="/courses/:id/update" element={<UpdateCourse />} />
         </Route>
+        <Route path="/error" element={<UnhandledError />} />
+        <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </div>
   );
