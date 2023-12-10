@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Markdown from "react-markdown";
 
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
@@ -84,8 +85,7 @@ const CourseDetail = () => {
               <p>
                 {/* By {course.User.firstName + " " + course.User.lastName} */}
               </p>
-
-              <p>{course.description}</p>
+              <Markdown children={course.description} />
             </div>
             <div>
               <h3 className="course--detail--title">Estimated Time</h3>
@@ -93,11 +93,14 @@ const CourseDetail = () => {
 
               <h3 className="course--detail--title">Materials Needed</h3>
               <ul className="course--detail--list">
-                {course.materialsNeeded
+                {/* {course.materialsNeeded
                   ? course.materialsNeeded
-                      .replace(/\*/g, "")
+                      .replace(/\*\/g, "")
                       .split("\n")
                       .map((item, i) => <li key={i}>{item}</li>)
+                  : ""} */}
+                  {course.materialsNeeded
+                  ? <Markdown children={course.materialsNeeded} />
                   : ""}
               </ul>
             </div>
