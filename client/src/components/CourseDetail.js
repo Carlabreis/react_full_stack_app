@@ -1,30 +1,73 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from "react-router-dom";
+
+import UserContext from "../context/UserContext";
+import { api } from "../utils/apiHelper";
 
 const CourseDetail = () => {
+  const navigate = useNavigate();
+  const { authUser } = useContext(UserContext);
   const { id } = useParams();
 
   const [course, setCourse] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/${id}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setCourse(result);
-      });
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        const response = await api(`/courses/${id}`, "GET");
+        const coursesJson = await response.json();
+        if (response.status === 200) {
+          setCourse(coursesJson);
+        } else if (response.status === 500) {
+          navigate("/error");
+        }
+      } catch (error) {
+        console.log("Error fetching and parsing courses data", error);
+        navigate("/error");
+      }
+    };
+    fetchData();
+  }, [navigate, id]);
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await api(`/courses/${id}`, 'DELETE', null, authUser);
+
+      if (response.status === 204) {
+        console.log("Course deleted.")
+        navigate("/")
+      } else if (response.status === 403) {
+        navigate("/forbidden")
+      } else if (response.status === 500) {
+        navigate("/error")
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log("Error fetching and deleting course", error)
+      navigate("/error")
+    }
+  }
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${id}/update`}>
-            Update Course
-          </Link>
-          <Link className="button" to="/">
-            Delete Course
-          </Link>
+          {authUser !== null && authUser.id === course.userId ? (
+            <>
+              <Link className="button" to={`/courses/${id}/update`}>
+                Update Course
+              </Link>
+              <Link className="button" to="/" onClick={handleDelete}>
+                Delete Course
+              </Link>
+            </>
+          ) : (
+            ""
+          )}
+
           <Link className="button button-secondary" to="/">
             Return to List
           </Link>
@@ -38,7 +81,9 @@ const CourseDetail = () => {
             <div>
               <h3 className="course--detail--title">Course</h3>
               <h4 className="course--name">{course.title}</h4>
-              {/* <p>By {course.User.firstName} {course.User.lastName}</p> */}
+              <p>
+                {/* By {course.User.firstName + " " + course.User.lastName} */}
+              </p>
 
               <p>{course.description}</p>
             </div>
@@ -52,7 +97,7 @@ const CourseDetail = () => {
                   ? course.materialsNeeded
                       .replace(/\*/g, "")
                       .split("\n")
-                      .map((item) => <li key={item.index}>{item}</li>)
+                      .map((item, i) => <li key={i}>{item}</li>)
                   : ""}
               </ul>
             </div>
