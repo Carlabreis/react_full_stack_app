@@ -1,17 +1,17 @@
 // import React from "react";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 import UserContext from "../context/UserContext";
 
 // signs out the authenticated user and redirects the user to the default route (i.e. the list of courses).
 const UserSignOut = () => {
-    const navigate = useNavigate();
+    const { actions } = useContext(UserContext);
 
-    const { actions, authUser } = useContext(UserContext);
-
-    actions.signOut(authUser);
-    navigate('/');
+    useEffect(() => actions.signOut());
+    
+    // navigate to root route and replace to prevent loop if user try to navigate history stack
+    return <Navigate to="/" replace />
 }
 
 export default UserSignOut;

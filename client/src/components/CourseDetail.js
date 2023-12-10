@@ -17,9 +17,9 @@ const CourseDetail = () => {
     const fetchData = async () => {
       try {
         const response = await api(`/courses/${id}`, "GET");
-        const coursesJson = await response.json();
+        const courseJson = await response.json();
         if (response.status === 200) {
-          setCourse(coursesJson);
+          setCourse(courseJson);
         } else if (response.status === 500) {
           navigate("/error");
         }
