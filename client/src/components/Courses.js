@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "../utils/apiHelper";
 
+/**
+ * Fetch courses data from the REST API's /api/courses route and populate page
+ * @returns Courses component
+ */
+
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();

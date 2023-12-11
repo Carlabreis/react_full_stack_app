@@ -39,7 +39,7 @@ const CreateCourse = () => {
 
       if (response.status === 201) {
         console.log(`${course.title} is successfully created!`);
-        // navigate(`/courses/${id}`)
+        navigate("/")
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
