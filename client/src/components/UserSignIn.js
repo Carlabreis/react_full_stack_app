@@ -4,18 +4,25 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
+/**
+ * It provides the "Sign In" screen by rendering a form that allows a user to sign in using their existing account information.
+ * The component also renders a "Sign In" button that when clicked signs in the user and a "Cancel" button that returns the user to the default route (i.e. the list of courses).
+ * 
+ * @returns UserSignIn component
+ */
+
 const UserSignIn = () => {
   const { actions } = useContext(UserContext);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // State
+  // STATE
   const emailAddress = useRef(null);
   const password = useRef(null);
   const [errors, setErrors] = useState([]);
 
-  // Event handlers
+  // EVENT HANDLERS
   const handleCancel = (event) => {
     event.preventDefault();
     navigate("/");

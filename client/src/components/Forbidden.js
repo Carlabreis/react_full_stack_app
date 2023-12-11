@@ -1,3 +1,8 @@
+/**
+ * It displays a friendly message to the user if they try to access a page that they are not authorized to access
+ * @returns Friendly message component
+ */
+
 const Forbidden = () => {
   return (
     <main>

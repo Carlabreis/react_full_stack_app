@@ -1,3 +1,11 @@
+/**
+ * Display validation errors returned from the REST API
+ * For 'Sign Up', 'Create Course', and 'Update Course' screens
+ * 
+ * @param {object} errors
+ * @returns The validation error messages component
+ */
+
 const ErrorsDisplay = ({ errors }) => {
   let errorsDisplay = null;
 

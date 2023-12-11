@@ -1,10 +1,20 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import ErrorsDisplay from "./ErrorsDisplay";
 import { api } from "../utils/apiHelper";
+import UserContext from "../context/UserContext";
+
+/**
+ * This component provides the "Sign Up" screen by rendering a form that allows a user to sign up by creating a new account.
+ * The component also renders a "Sign Up" button that when clicked sends a POST request to the REST API's /api/users route and signs in the user.
+ * This component also renders a "Cancel" button that returns the user to the default route (i.e. the list of courses).
+ * 
+ * @returns UserSignUp component
+ */
 
 const UserSignUp = () => {
+  const { actions } = useContext(UserContext);
   const navigate = useNavigate();
 
   // STATE
@@ -30,6 +40,11 @@ const UserSignUp = () => {
       password: password.current.value,
     };
 
+    const credentials = {
+      emailAddress: user.emailAddress,
+      password: user.password
+    }
+
     try {
       const response = await api(
         "/users",
@@ -38,6 +53,7 @@ const UserSignUp = () => {
       );
 
       if (response.status === 201) {
+        const user = await actions.signIn(credentials);
         console.log(
           `${user.firstName} is successfully signed up and authenticated!`
         );

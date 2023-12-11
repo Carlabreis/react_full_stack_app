@@ -4,12 +4,20 @@ import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 import ErrorsDisplay from "./ErrorsDisplay";
 
+/**
+ * It provides the "Update Course" screen by rendering a form that allows a user to update one of their existing courses.
+ * The component also renders an "Update Course" button that when clicked sends a PUT request to the REST API's /api/courses/:id route.
+ * This component also renders a "Cancel" button that returns the user to the "Course Detail" screen.
+ * 
+ * @returns UpdateCourse component
+ */
+
 const UpdateCourse = () => {
   const { authUser } = useContext(UserContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // State
+  // STATE
   const title = useRef(null);
   const description = useRef(null);
   const estimatedTime = useRef(null);
@@ -17,8 +25,8 @@ const UpdateCourse = () => {
   const [course, setCourse] = useState([]);
   const [errors, setErrors] = useState([]);
 
-  // Fetch course data and set course on load
-
+  // ON LOAD
+  // Fetch course data and set course
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +36,7 @@ const UpdateCourse = () => {
         if (response.status === 200) {
           if (authUser.id === courseJson.userId) { // if user logged in is same as course author
             setCourse(courseJson);
-          } else { // forbidden
+          } else {
             navigate("/forbidden");
           }
         } else {
@@ -41,6 +49,7 @@ const UpdateCourse = () => {
     fetchData();
   }, [id, authUser.id, navigate]);
 
+  // Update course info
   const handleSubmit = async (event) => {
     event.preventDefault();
 

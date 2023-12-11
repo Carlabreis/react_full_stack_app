@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 
-// Components
 import Header from "./components/Header";
 import Courses from "./components/Courses";
 import CourseDetail from "./components/CourseDetail";

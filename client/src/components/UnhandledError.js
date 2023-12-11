@@ -1,3 +1,9 @@
+/**
+ * It displays a friendly message to the user if there was an unexpected error
+ *
+ * @returns UnhandledError component
+ */
+
 const UnhandledError = () => {
   return (
     <main>

@@ -3,6 +3,12 @@ import { NavLink } from "react-router-dom";
 
 import UserContext from "../context/UserContext";
 
+/**
+ * If user are not signed in, it renders the "sign up" and "sign in" links.
+ * If user is signed in, it renders a "Welcome user" message and a "sign out" link.
+ * 
+ * @returns header component
+ */
 const Header = () => {
   const { authUser } = useContext(UserContext);
 

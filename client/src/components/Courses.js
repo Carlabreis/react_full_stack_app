@@ -14,6 +14,8 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
+  // ON LOAD
+  //fetch courses data and populate the page
   useEffect(() => {
     const fetchData = async () => {
       try {

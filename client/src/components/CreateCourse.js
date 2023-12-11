@@ -5,11 +5,17 @@ import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
+/**
+ * Renders a form for the user to add a course to the courses list
+ * The user needs to be signed in to add a course
+ * @returns CreateCourse component
+ */
+
 const CreateCourse = () => {
   const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // states
+  // STATES
   const title = useRef(null);
   const description = useRef(null);
   const estimatedTime = useRef(null);
@@ -26,6 +32,7 @@ const CreateCourse = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Get input values from form fields and save as a course object
     const course = {
       title: title.current.value,
       description: description.current.value,
@@ -34,6 +41,7 @@ const CreateCourse = () => {
       userId: courseAuthor.id,
     };
 
+    // Create course and save it to database
     try {
       const response = await api("/courses", "POST", course, authUser);
 

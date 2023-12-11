@@ -6,7 +6,9 @@ import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
 /**
- * Fetch course data from the REST API's /api/courses/:id route and populate page
+ * Fetch course data from the REST API's /api/courses/:id route and populate page.
+ * If user is the course's author, "update course" and "delete course" buttons should display.
+ * 
  * @returns CourseDetail component
  */
 
@@ -19,12 +21,12 @@ const CourseDetail = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // ON LOAD
-  //fetch course data and populate the page
+  //fetch course data and populate the page after course is set
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api(`/courses/${id}`, "GET");
-        
+
         if (response.status === 200) {
           const courseJson = await response.json();
           setCourse(courseJson);
@@ -46,23 +48,23 @@ const CourseDetail = () => {
   const handleDelete = async (event) => {
     event.preventDefault();
     try {
-      const response = await api(`/courses/${id}`, 'DELETE', null, authUser);
+      const response = await api(`/courses/${id}`, "DELETE", null, authUser);
 
       if (response.status === 204) {
-        console.log("Course deleted.")
-        navigate("/")
+        console.log("Course deleted.");
+        navigate("/");
       } else if (response.status === 403) {
-        navigate("/forbidden")
+        navigate("/forbidden");
       } else if (response.status === 500) {
-        navigate("/error")
+        navigate("/error");
       } else {
         throw new Error();
       }
     } catch (error) {
-      console.log("Error fetching and deleting course", error)
-      navigate("/error")
+      console.log("Error fetching and deleting course", error);
+      navigate("/error");
     }
-  }
+  };
 
   if (isLoaded) {
     return (
@@ -81,13 +83,13 @@ const CourseDetail = () => {
             ) : (
               ""
             )}
-  
+
             <Link className="button button-secondary" to="/">
               Return to List
             </Link>
           </div>
         </div>
-  
+
         <div className="wrap">
           <h2>Course Detail</h2>
           <form>
@@ -95,18 +97,22 @@ const CourseDetail = () => {
               <div>
                 <h3 className="course--detail--title">Course</h3>
                 <h4 className="course--name">{course.title}</h4>
-                <p>By {course.User.firstName} {course.User.lastName}</p>
+                <p>
+                  By {course.User.firstName} {course.User.lastName}
+                </p>
                 <Markdown children={course.description} />
               </div>
               <div>
                 <h3 className="course--detail--title">Estimated Time</h3>
                 <p>{course.estimatedTime}</p>
-  
+
                 <h3 className="course--detail--title">Materials Needed</h3>
                 <ul className="course--detail--list">
-                    {course.materialsNeeded
-                    ? <Markdown children={course.materialsNeeded} />
-                    : ""}
+                  {course.materialsNeeded ? (
+                    <Markdown children={course.materialsNeeded} />
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </div>
             </div>
