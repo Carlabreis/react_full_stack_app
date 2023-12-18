@@ -1,9 +1,9 @@
 export const api = (path, method = "GET", body = null, credentials = null) => {
   // Testing on local machine
-  const url = `http://localhost:5000/api` + path;
+  // const url = `http://localhost:5000/api` + path;
 
   // For hosting the full stack app on railway
-  // const url = `https://fullstack-app-react-and-rest-api-production.up.railway.app/api` + path;
+  const url = `https://reactfullstackapp-production.up.railway.app/api` + path;
 
   const options = {
     method,
